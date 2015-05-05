@@ -53,7 +53,6 @@ ul , li  {
 	background-color: #ddd;
 }
 
-
 .content {
 	position: absolute;
 	top: 2rem;
@@ -77,7 +76,7 @@ ul , li  {
 	top: 1.5rem;
 	left: 0;
 	right: 0;
-	bottom: 3rem;
+	bottom: 0;
 	background-color: #fefefe;
 	overflow: hidden;
 }
@@ -112,16 +111,6 @@ ul , li  {
 	width: 14rem;
 	height: 1.8rem;
 	line-height: 1.8rem;
-}
-
-.content .opers {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 3rem;
-	background: #fbfbfb;
-	border-top: 1px solid #ededed;
 }
 
 @keyframes fade {
