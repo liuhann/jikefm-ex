@@ -76,7 +76,7 @@ ul , li  {
 	top: 1.5rem;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	bottom: 3rem;
 	background-color: #fefefe;
 	overflow: hidden;
 }
@@ -111,6 +111,30 @@ ul , li  {
 	width: 14rem;
 	height: 1.8rem;
 	line-height: 1.8rem;
+}
+
+
+.content .opers {
+	 position: absolute;
+	 bottom: 0;
+	 left: 0;
+	 right: 0;
+	 height: 3rem;
+	 background: #fbfbfb;
+	 border-top: 1px solid #dedede;
+	 display: flex;
+}
+.content .opers a:BEFORE {
+	font-size: 1.25rem;
+	display: block;
+}
+	
+.content .opers a {
+	position: relative;
+	flex: 1;
+	display: block;
+	font-size: .75rem;
+	text-align: center;
 }
 
 @keyframes fade {
