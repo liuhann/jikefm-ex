@@ -1,0 +1,142 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+ul , li  {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.template {
+	display: none;
+}
+.head {
+	position: absolute;
+	left:0;
+	right: 0;
+	top: 0;
+	height: 2rem;
+	line-height: 2rem;
+	background-color: #41A4FF;
+	color: #fff;
+	font-size:.825rem;
+	padding-left: .3rem;
+}
+
+.nav .upper {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 3rem;
+	font-size: .75rem;
+	line-height: 1.5rem;
+}
+.nav .upper.pressed {
+	background-color: #ddd;
+}
+
+
+.content {
+	position: absolute;
+	top: 2rem;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.content .nav {
+	position: absolute;
+	top:0;
+	height: 1.5rem;
+	left: 0;
+	right: 0;
+	background-color: #efefef;
+	font-size: .75rem;
+	line-height: 1.5rem;
+	padding-left: .5rem;
+}
+.content .list {
+	position: absolute;
+	top: 1.5rem;
+	left: 0;
+	right: 0;
+	bottom: 3rem;
+	background-color: #fefefe;
+	overflow: hidden;
+}
+.content .list ul li {
+	position: relative;
+	height: 2rem;
+	font-size: .75rem;
+	border-bottom: 1px solid #ccc;
+}
+.content .list ul li.pressed {
+	background-color: #999;
+}
+.content .list ul li .icon {
+	position: absolute;
+	left: 1.6rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	top: .2rem;
+	background-size: 1.5rem 1.5rem;
+}
+.content .list ul li .icon.folder {
+	background-image: url('../img/folder.png');
+}
+
+.content .list ul li .icon.file {
+	background-image: url('../img/file.png');
+}
+.content .list ul li .name {
+	position: absolute;
+	left:3.4rem;
+	top: .2rem;
+	width: 14rem;
+	height: 1.8rem;
+	line-height: 1.8rem;
+}
+
+.content .opers {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 3rem;
+	background: #fbfbfb;
+	border-top: 1px solid #ededed;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
