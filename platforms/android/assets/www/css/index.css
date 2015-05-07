@@ -125,16 +125,72 @@ ul , li  {
 	 display: flex;
 }
 .content .opers a:BEFORE {
-	font-size: 1.25rem;
+	font-size: 1rem;
 	display: block;
 }
-	
+
 .content .opers a {
+	color: #444;
+	padding-top: .5rem;
 	position: relative;
 	flex: 1;
 	display: block;
 	font-size: .75rem;
 	text-align: center;
+}
+.content .opers a.pressed {
+	background-color: #444;
+	color: #fff;
+}
+
+.overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0,0,0,.6);
+	display:none;
+}
+.overlay .dialog {
+	position:absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #efefef;
+}
+.overlay .dialog .title {
+	text-align: center;
+	font-size: .75rem;
+	padding: 1rem;	
+}
+.overlay .dialog .dlgcontent {
+	padding: .5rem;
+}
+.overlay .dialog .dlgcontent input {
+	border: 1px solid #ddd;
+	padding: .5rem;
+	width: 16rem;
+}
+
+.overlay .dialog .btns {
+	padding: 1rem;
+	text-align: center;
+}
+
+.overlay .dialog .btns a.btn {
+	margin-right:.5rem;
+	font-size: .75rem;
+	color:#666;
+	border-radius: .5rem;
+	text-align: center;
+	border: 1px solid #ddd;
+	padding: .3rem 1rem;
+}
+
+.overlay .dialog .btns a.btn.pressed {
+	background-color: #444;
+	color: #fff;
 }
 
 @keyframes fade {

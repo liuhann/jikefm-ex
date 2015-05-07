@@ -64,6 +64,15 @@ function ready() {
 			alert("error");
 		}
 	);
+	
+	$(".icon-plus").bindtouch(function() {
+		$("#createFolder").show();
+		$("#edit-folder-name").focus();
+	})
+	
+	$("#btncfcancel").bindtouch(function() {
+		$("#createFolder").hide();
+	});
 }
 
 function openDir(dirEntry) {
@@ -76,6 +85,17 @@ function openDir(dirEntry) {
 		}, function() {
 		});
 	});
+	
+	$("#btncf").bindtouch(function(){
+		dirEntry.getDirectory($("#edit-folder-name").val(), {create: true, exclusive: true},
+			function() {
+			$("#createFolder").hide();
+				openDir(dirEntry);
+			}, function() {
+				alert("同名文件已经存在！");
+			});
+	})
+
 	
 	 dirEntry.createReader().readEntries(function (entries) {
 		 orderFileEntry(entries);
