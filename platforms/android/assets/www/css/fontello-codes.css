@@ -1,0 +1,9 @@
+
+.icon-check-empty:before { content: '\e800'; } /* '' */
+.icon-check:before { content: '\e801'; } /* '' */
+.icon-cancel-alt:before { content: '\e802'; } /* '' */
+.icon-move:before { content: '\e803'; } /* '' */
+.icon-docs:before { content: '\e804'; } /* '' */
+.icon-trash:before { content: '\e805'; } /* '' */
+.icon-plus:before { content: '\e808'; } /* '' */
+.icon-info-circled:before { content: '\e80d'; } /* '' */

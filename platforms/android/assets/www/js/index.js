@@ -64,9 +64,61 @@ function ready() {
 			alert("error");
 		}
 	);
+	
+	$(".icon-plus").bindtouch(function() {
+		$("#createFolder").show();
+	});
+	
+	$("#btn-cancel-cf").bindtouch(function() {
+		$("#createFolder").hide();
+	});
+	$("#btn-cf").bindtouch(function() {
+		dirEntry.getDirectory($("#edit-folder-name").val(), {
+			create: true,
+			exclusive: true
+		}, function() {
+			$("#createFolder").hide();
+		}, function() {
+			alert("已存在同名文件夹");
+		});
+	});
+	
+	$(".icon-trash").bindtouch(function() {
+		$(".icon-check").each(function() {
+			var entry = $(this).parents(".item").data("entry");
+			
+			function sucess() {
+				openDir(currentDir);
+			}
+			
+			function fail() {
+				alert("fail to delete file");
+			}
+			
+			if(entry.isFile) {
+				entry.remove(sucess,fail);
+			} else {
+				entry.removeRecursively(sucess, fail);
+			}
+		});
+	});
 }
 
+var currentDir = null;
+
 function openDir(dirEntry) {
+	currentDir = dirEntry;
+	$("#btn-cf").bindtouch(function() {
+		dirEntry.getDirectory($("#edit-folder-name").val(), {
+			create: true,
+			exclusive: true
+		}, function() {
+			$("#createFolder").hide();
+			openDir(dirEntry);
+		}, function() {
+			alert("已存在同名文件夹");
+		});
+	});
 	
 	$("#nav-path span").html(dirEntry.name);
 	
@@ -94,6 +146,25 @@ function openDir(dirEntry) {
 	            	   openDir($(this).data("entry"));
 	               });
 	            }
+	            
+	            cloned.find(".check").bindtouch(function() {
+	            	if ($(this).hasClass("icon-check-empty")) {
+	            		$(this).removeClass("icon-check-empty");
+	            		$(this).addClass("icon-check");
+	            	} else {
+	            		$(this).addClass("icon-check-empty");
+	            		$(this).removeClass("icon-check");
+	            	}
+	            	if ($(".icon-check").length>0) {
+	            		$("#file-nocheck").hide();
+	            		$("#file-check").show();
+	            	} else {
+	            		$("#file-nocheck").show();
+	            		$("#file-check").hide();
+	            	}
+	            }, true);
+	            
+	            
 	            cloned.find(".name").html(entry.name);
 	            $("#file-list ul").append(cloned);
 	        }
@@ -119,17 +190,20 @@ function orderFileEntry(entries) {
 	});
 }
 
-$.fn.bindtouch = function(cb) {
-	attachEvent($(this), cb);
+$.fn.bindtouch = function(cb, nobubble) {
+	attachEvent($(this), cb , nobubble);
 };
 
-function attachEvent(src, cb) {
+function attachEvent(src, cb, nobubble) {
 	$(src).unbind();
 	var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
 	if (isTouchDevice) {
 		$(src).bind("touchstart", function(event) {
 			$(this).data("touchon", true);
 			$(this).addClass("pressed");
+			if(nobubble) {
+				event.stopPropagation();
+			}
 		});
 		$(src).bind("touchend", function() {
 			$(this).removeClass("pressed");
@@ -137,10 +211,16 @@ function attachEvent(src, cb) {
 				cb.bind(this)();
 			}
 			$(this).data("touchon", false);
+			if(nobubble) {
+				event.stopPropagation();
+			}
 		});
 		$(src).bind("touchmove", function() {
 			$(this).data("touchon", false);
 			$(this).removeClass("pressed");
+			if(nobubble) {
+				event.stopPropagation();
+			}
 		});
 	} else {
 		$(src).bind("mousedown", function() {
