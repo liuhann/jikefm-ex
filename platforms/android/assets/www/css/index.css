@@ -209,6 +209,18 @@ ul , li  {
 	color: #fff;
 }
 
+.horiscroll {
+	width: 54rem;
+	height: 18rem;
+}
+.horiscroll li {
+	position: relative;
+	height: 18rem;
+	width: 18rem;
+	float: left;
+	
+}
+
 @keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }

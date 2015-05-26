@@ -56,7 +56,7 @@ function ready() {
 	var size = $(window).width() / 18;
 	$("html").css("font-size", size);
 	myscroll = new IScroll("#file-list");
-	
+	var tabscroll = new IScroll("#full-tab");
 	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
 		function(entries) {
 			openDir(entries);
