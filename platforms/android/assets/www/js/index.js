@@ -89,6 +89,7 @@ function ready() {
 			
 			function sucess() {
 				openDir(currentDir);
+				viewNormal();
 			}
 			
 			function fail() {
@@ -102,6 +103,83 @@ function ready() {
 			}
 		});
 	});
+	
+	$(".icon-move").bindtouch(function() {
+		var entryList = [];
+		$(".icon-check").each(function() {
+			var entry = $(this).parents(".item").data("entry");
+			entryList.push(entry);
+		});
+		viewTarget(entryList, "move");
+	});
+	$(".icon-docs").bindtouch(function() {
+		var entryList = [];
+		$(".icon-check").each(function() {
+			var entry = $(this).parents(".item").data("entry");
+			entryList.push(entry);
+		});
+		viewTarget(entryList, "copy");
+	});
+	
+	$(".icon-cancel").bindtouch(function(){
+		viewNormal();
+	});
+	
+	
+	$(".icon-ok").bindtouch(function() {
+		var entryList = $("#file-confirm").data("list");
+		if ($("#file-confirm").data("action")=="move") {
+			moveFile();
+			function moveFile() {
+				if (entryList.length==0) {
+					viewNormal();
+					openDir(currentDir);
+				} else {
+					var entry = entryList.pop();
+					entry.moveTo(currentDir, null, finish, finish);
+					function finish() {
+						moveFile();
+					}
+				}
+			}
+		}
+		if ($("#file-confirm").data("action")=="copy") {
+			copyFile();
+			function copyFile() {
+				if (entryList.length==0) {
+					viewNormal();
+					openDir(currentDir);
+				} else {
+					var entry = entryList.pop();
+					entry.copyTo(currentDir, null, finish, finish);
+					function finish() {
+						copyFile();
+					}
+				}
+			}
+		}
+	});
+}
+
+function viewTarget(entryList, action) {
+	$(".content .opers:not(.down)").addClass("down");
+	$("#file-confirm").removeClass("down");
+	$("#file-confirm").data("list", entryList);
+	$("#file-confirm").data("action", action);
+	$(".check").hide();
+}
+
+function viewNormal() {
+	$(".content .opers:not(.down)").addClass("down");
+	$("#file-nocheck").removeClass("down");
+	
+	$(".check").show();
+	$(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
+}
+
+function viewSelection() {
+	$(".content .opers:not(.down)").addClass("down");
+	$("#file-check").removeClass("down");
 }
 
 var currentDir = null;
@@ -156,11 +234,9 @@ function openDir(dirEntry) {
 	            		$(this).removeClass("icon-check");
 	            	}
 	            	if ($(".icon-check").length>0) {
-	            		$("#file-nocheck").hide();
-	            		$("#file-check").show();
+	            		viewSelection();
 	            	} else {
-	            		$("#file-nocheck").show();
-	            		$("#file-check").hide();
+	            		viewNormal();
 	            	}
 	            }, true);
 	            

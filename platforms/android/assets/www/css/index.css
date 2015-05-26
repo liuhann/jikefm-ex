@@ -73,13 +73,19 @@ ul , li  {
 }
 .content .opers {
 	position: absolute;
-	bottom: 0;
 	left: 0;
 	right: 0;
 	height: 3rem;
 	background-color: #fbfbfb;
 	display: flex;
+	bottom: 0;
+	-webkit-transition : -webkit-transform .3s linear;
+	-webkit-transform: translateY(0) translateZ(0);
 }
+.content .opers.down {
+	-webkit-transform: translateY(3rem) translateZ(0);
+}
+
 .content .opers a:BEFORE {
 	font-size: 1rem;
 	display: block;	
