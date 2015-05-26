@@ -207,6 +207,9 @@ function openDir(dirEntry) {
 		});
 	});
 	
+	if (!$("#file-check").hasClass(".down")) {
+		viewNormal();
+	}
 	 dirEntry.createReader().readEntries(function (entries) {
 		 orderFileEntry(entries);
 		 $("#file-list ul li.item").remove();
