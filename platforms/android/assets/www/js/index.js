@@ -54,10 +54,13 @@ var myscroll = null;
 
 //$(ready);
 function ready() {
+
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	
 	var size = $(window).width() / 18;
 	$("html").css("font-size", size);
 	myscroll = new IScroll("#file-list");
-	var tabscroll = new IScroll("#full-tab",{ scrollX: true, scrollY: false, snap: true,momentum: false});
+	var tabscroll = new IScroll("#full-tab",{ scrollX: true, scrollY: false, snap:true, snapSpeed: 400});
 	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
 		function(entries) {
 			openDir(entries);
