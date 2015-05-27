@@ -209,16 +209,23 @@ ul , li  {
 	color: #fff;
 }
 
-.horiscroll {
-	width: 54rem;
-	height: 18rem;
+#hscroller {
+  position: absolute;
+  z-index: 1;
+  width: 54rem;
+  height: 100%;
 }
-.horiscroll li {
-	position: relative;
-	height: 18rem;
-	width: 18rem;
+
+.horiscroll {
+  width: 100%;
+  height: 100%;
+}
+.horiscroll li.tab {
+	position:relative;
+	display:block;
 	float: left;
-	
+	width: 18rem;
+    height: 100%;
 }
 
 @keyframes fade {
