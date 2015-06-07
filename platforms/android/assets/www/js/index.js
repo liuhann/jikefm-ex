@@ -51,19 +51,44 @@ var app = {
 };
 
 var myscroll = null;
-
+var db = null;
 //$(ready);
 function ready() {
 
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	
+	db = new loki('loki.json');
+	db.loadDatabase();
+	
 	var size = $(window).width() / 18;
 	$("html").css("font-size", size);
 	myscroll = new IScroll("#file-list");
-	var tabscroll = new IScroll("#full-tab",{ scrollX: true, scrollY: false, snap:true, snapSpeed: 400});
+	var tabscroll = new IScroll("#full-tab",{ 
+		scrollX: true, 
+		scrollY: false, 
+		snap:true, 
+		momentum: false,
+		snapSpeed: 400,
+		indicators: {
+			el: document.getElementById('indicator'),
+			resize: false
+		}
+	});
+	
+	tabscroll.on('scrollEnd', function () {
+		$(".head a.on").removeClass("on");
+		$(".head a").eq(this.currentPage.pageX).addClass("on");
+	});
+	
 	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
 		function(entries) {
 			openDir(entries);
+			var coll = db.getCollection("files");
+			if (coll==null) {
+				updateFileCat(entries);
+			} else {
+				displayFileCat();
+			}
 		}, function() {
 			alert("error");
 		}
@@ -272,6 +297,84 @@ function orderFileEntry(entries) {
 		}
 	});
 }
+
+function displayFileCat() {
+	var coll = db.getCollection("files");
+	$(".icon-picture i").html(coll.find({"ext": {"$in": ["png"]}}).length);
+	$(".icon-music i").html(coll.find({"ext": {"$in": ["mp3"]}}).length);
+	$(".icon-video i").html(coll.find({"ext": {"$in": ["mp4","flv"]}}).length);
+	$(".icon-doc-text i").html(coll.find({"ext": {"$in": ["txt","doc","pdf"]}}).length);
+	$(".icon-wechat i").html(coll.find({"ext": {"$in": ["wma"]}}).length);
+	$(".icon-android i").html(coll.find({"ext": "apk"}).length);
+	
+}
+
+var scanedTotal = 0;
+function updateFileCat(entry) {
+	var coll = db.addCollection("files");
+
+	scanstacks.push(entry);
+	scanAndPutFile(function() {
+		$("#scan-info").html("扫描完成, 共扫描到 " + scanedTotal + "个文件");
+		db.save();
+	});
+}
+
+var scanstacks = [];
+function scanAndPutFile(cb) {
+	if (scanstacks.length==0) {
+		cb();
+	} else {
+		var entry = scanstacks.pop();
+		if (isIgnore(entry)) {
+			scanAndPutFile(cb);
+			return;
+		}
+		
+		scanedTotal ++;
+		$("#scan-info").html(entry.fullPath + entry.name);
+		if (entry.isFile) {
+			//record the file
+			var coll = db.getCollection("files");
+			coll.insert({
+				path: entry.fullPath,
+				name : entry.name,
+				ext: entry.name.substring(entry.name.lastIndexOf(".")+1),
+				size: entry.size
+			});
+			scanAndPutFile(cb);
+		} else {
+			entry.createReader().readEntries(function (entries) {
+				for (var i = 0; i < entries.length; i++) {
+					scanstacks.push(entries[i]);
+				}
+				scanAndPutFile(cb);
+			});
+		}
+	}
+}
+
+function isIgnore(entry) {
+	var name = entry.name;
+	
+	var pos = name.indexOf(".");
+	
+	if (pos==0) {
+		return true;
+	}
+	if (entry.isFile && pos==-1) {
+		return true;
+	}
+	if (!entry.isFile && name.length>30) {
+		return true;
+	}
+	if (entry.name.indexOf("cache")>-1) {
+		return true;
+	}
+	
+	return false;
+}
+
 
 $.fn.bindtouch = function(cb, nobubble) {
 	attachEvent($(this), cb , nobubble);

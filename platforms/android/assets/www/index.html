@@ -7,9 +7,7 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -30,21 +28,42 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/lokijs.js"></script>
         <title>Hello World</title>
     </head>
     <body>
 		<div class="head">
-			极客文件浏览器
+			<a>分类查看</a>
+			<a>浏览目录</a>
 		</div>
-		
+		<div id="indicator">
+				<div id="dotty">
+					<div class="idx"></div>
+				</div>
+		</div>
+			
 		<div class="content" id="full-tab">
-			<div id="hscroller">
 				<ul class="horiscroll">
 					<li class="tab">
-						1
-					</li>
-					<li class="tab">
-						2
+						<div class="grid9">
+							<div class="line">
+								<a class="icon-picture tags1">照片<i>0</i></a>
+								<a class="icon-music tags2">音乐<i>0</i></a>
+								<a class="icon-video tags3">视频<i>0</i></a>
+							</div>
+							<div class="line center">
+								<a class="icon-doc-text tags4">文档<i>0</i></a>
+								<a class="icon-wechat tags5">录音<i>0</i></a>
+								<a class="icon-android tags6">安装包<i>0</i></a>
+							</div>
+							<div class="line">
+								<a class="icon-briefcase tags7">下载<i>0</i></a>
+								<a class="icon-info-circled tags8">大文件<i>0</i></a>
+								<a class="icon-star-empty tags9">收藏<i>0</i></a>
+							</div>
+						</div>
+						<div id="scan-info"></div>
+						
 					</li>
 					<li class="tab">
 						<div class="nav">
@@ -79,11 +98,7 @@
 							<a class="icon-cancel">取消</a>
 						</div>
 					</li>
-			
-			</div>
-			</ul>
-		
-			
+				</ul>
 		</div>
 		<div class="overlay" id="createFolder">
 			<div class="dialog">
