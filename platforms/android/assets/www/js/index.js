@@ -67,7 +67,7 @@ function ready() {
 		scrollX: true, 
 		scrollY: false, 
 		snap:true, 
-		momentum: false,
+		momentum: true,
 		snapSpeed: 400,
 		indicators: {
 			el: document.getElementById('indicator'),
@@ -188,6 +188,35 @@ function ready() {
 			}
 		}
 	});
+	
+	$(".icon-star-empty").bindtouch(function() {
+		var coll = db.getCollection("favourites");
+		if (coll==null) {
+			coll = db.addCollection("favourites");
+		}
+		$(".icon-check").each(function() {
+			var entry = $(this).parents(".item").data("entry");
+			
+			coll.insert({
+				name: entry.name,
+				full: entry.fullPath+ "/" +entry.name
+			});
+			
+		});
+		
+		db.save();
+	});
+	
+	$(".head .bycat").bindtouch(function() {
+		$(".head .on").removeClass("on");
+		$(this).addClass("on");
+		tabscroll.scrollTo(0,0,400);
+	});
+	$(".head .browse").bindtouch(function() {
+		$(".head .on").removeClass("on");
+		$(this).addClass("on");
+		tabscroll.scrollToElement("li.tab2",400);
+	});
 }
 
 function viewTarget(entryList, action) {
@@ -307,6 +336,10 @@ function displayFileCat() {
 	$(".icon-wechat i").html(coll.find({"ext": {"$in": ["wma"]}}).length);
 	$(".icon-android i").html(coll.find({"ext": "apk"}).length);
 	
+	var coll = db.getCollection("favourites");
+	if (coll!=null) {
+		$(".icon-star-empty i").html(coll.chain().data().length);
+	}
 }
 
 var scanedTotal = 0;
