@@ -54,7 +54,8 @@ var myscroll = null;
 var db = null;
 //$(ready);
 function ready() {
-
+	//StatusBar.hide();
+	StatusBar.backgroundColorByHexString("#41A4FF");
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	
 	db = new loki('loki.json');
