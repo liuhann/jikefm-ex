@@ -219,11 +219,14 @@ function ready() {
 	});
 	
 	$(".login-to-weibo").bindtouch(function() {
-		var  ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039");
+		var  ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039",
+				"_blank", "location=true&clearcache=true");
 		ref.addEventListener("loadstop", function(event) {
-			if (event.url.indexOf("http://teddyfr.duapp.com")>-1) {
-				var auth = ref.executeScript({ code : "authReader;"});
-				alert(auth.screen_name)
+			if (event.url.indexOf("teddyfr")>-1) {
+				alert(1);
+				ref.executeScript({ code : "alert(2);authReader;"}, function(data) {
+					
+				});
 			}
 		});
 	});
