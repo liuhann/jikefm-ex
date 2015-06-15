@@ -217,6 +217,16 @@ function ready() {
 		$(this).addClass("on");
 		tabscroll.scrollToElement("li.tab2",400);
 	});
+	
+	$(".login-to-weibo").bindtouch(function() {
+		var  ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039");
+		ref.addEventListener("loadstop", function(event) {
+			if (event.url.indexOf("http://teddyfr.duapp.com")>-1) {
+				var auth = ref.executeScript({ code : "authReader;"});
+				alert(auth.screen_name)
+			}
+		});
+	});
 }
 
 function viewTarget(entryList, action) {
