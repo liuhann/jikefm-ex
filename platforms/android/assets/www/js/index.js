@@ -204,22 +204,21 @@ function ready() {
 		$(this).addClass("on");
 		tabscroll.scrollToElement("li.tab2",400);
 	});
+	$(".head .share").bindtouch(function() {
+		$(".head .on").removeClass("on");
+		$(this).addClass("on");
+		tabscroll.scrollToElement("li.tab3",400);
+	});
+	
+	$(".icon-video").bindtouch(function() {
+		$(".icon-check").each(function() {
+			var entry = $(this).parents(".item").data("entry");
+			uploadFile(entry);
+		});
+	});
 
 	$(".login-to-weibo").bindtouch(function() {
-		var ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039",
-				"_blank", "location=true");
-		ref.addEventListener("loadstop", function(event) {
-			if (event.url.indexOf("teddyfr")>-1) {
-				ref.executeScript({ code : "alert(2);authReader;"}, function(data) {
-					ref.close();
-					$(".notlogon").hide();
-					$(".weibo-login-info").show();
-					$(".weibo-login-info .wbhead").css("background-image", 'url("' + data[0].avatar_hd + '")');
-					$(".weibo-login-info .wbname").html(data[0].name);
-					$(".weibo-login-info .wbdesc").html(data[0].description);
-				});
-			}
-		});
+		loginWeibo();
 	});
 	
 	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
@@ -235,9 +234,45 @@ function ready() {
 			alert("error");
 		}
 	);
-	
-	
 }
+
+var weibo_token = null;
+
+function loginWeibo() {
+	var ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039",
+			"_blank", "location=true");
+	ref.addEventListener("loadstop", function(event) {
+		if (event.url.indexOf("teddyfr")>-1) {
+			ref.executeScript({ code : "authReader;"}, function(data) {
+				ref.close();
+				$(".notlogon").hide();
+				$(".weibo-login-info").show();
+				$(".weibo-login-info .wbhead").css("background-image", 'url("' + data[0].avatar_hd + '")');
+				$(".weibo-login-info .wbname").html(data[0].name);
+				$(".weibo-login-info .wbdesc").html(data[0].description);
+				weibo_token = data[0].at;
+			});
+		}
+	});
+}
+
+function uploadFile(entry) {
+	var ft = new FileTransfer();
+	var options = new FileUploadOptions();
+	options.fileKey = "pic";
+	options.params = {
+			status: encodeURI("来自文件管理器的共享图片")
+	};
+	ft.upload(entry.nativeURL, 
+			encodeURI("https://upload.api.weibo.com/2/statuses/upload.json?access_token=" + weibo_token),
+			function() {
+				alert("发布微博成功");
+			}, function(error) {
+				alert("发布微博失败" + JSON.stringify(error));
+			},options
+			);
+}
+
 
 function viewTarget(entryList, action) {
 	$(".content .opers:not(.down)").addClass("down");

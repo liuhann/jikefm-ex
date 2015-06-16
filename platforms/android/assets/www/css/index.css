@@ -250,7 +250,10 @@ ul , li  {
   position: absolute;
   z-index: 1;
   width: 54rem;
-  height: 100%;
+  top:0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
 .horiscroll li.tab {
@@ -258,7 +261,7 @@ ul , li  {
 	display:block;
 	float: left;
 	width: 18rem;
-	height: 30rem;
+	height: 100%;
 	background-color: #fefefe;
 }
 
@@ -296,18 +299,33 @@ ul , li  {
 }
 
 .weibo-login-info {
+	display: none;
 	margin: .5rem;
 	border: 1px solid #f1f1f1;
 	position: relative;
-	padding: .5rem;
+	height: 5rem;
 }
 
 .weibo-login-info .wbhead {
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 2rem;
-	height: 2rem;
+	left: .5rem;
+	top: .5rem;
+	width: 4rem;
+	height: 4rem;
+	background-size: contain;
+}
+.weibo-login-info .wbname {
+	position: absolute;
+	left: 5rem;
+	top: .5rem;
+	font-size: 1rem;
+}
+.weibo-login-info .wbdesc {
+	position: absolute;
+	left: 5rem;
+	top: 2.5rem;
+	font-size: .75rem;
+	color: #ccc;
 }
 
 
