@@ -1,10 +1,10 @@
 {
-    "org.apache.cordova.inappbrowser": {
+    "cordova-plugin-file": {
         "source": {
             "type": "registry",
-            "id": "org.apache.cordova.inappbrowser"
+            "id": "cordova-plugin-file"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "cordova-plugin-file-transfer": {
@@ -15,12 +15,12 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-file": {
+    "cordova-plugin-inappbrowser": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-file"
+            "id": "cordova-plugin-inappbrowser"
         },
-        "is_top_level": false,
+        "is_top_level": true,
         "variables": {}
     }
 }

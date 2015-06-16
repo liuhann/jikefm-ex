@@ -55,7 +55,7 @@ var db = null;
 //$(ready);
 function ready() {
 	//StatusBar.hide();
-	StatusBar.backgroundColorByHexString("#41A4FF");
+	//StatusBar.backgroundColorByHexString("#41A4FF");
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	
 	db = new loki('loki.json');
@@ -80,20 +80,6 @@ function ready() {
 		$(".head a.on").removeClass("on");
 		$(".head a").eq(this.currentPage.pageX).addClass("on");
 	});
-	
-	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
-		function(entries) {
-			openDir(entries);
-			var coll = db.getCollection("files");
-			if (coll==null) {
-				updateFileCat(entries);
-			} else {
-				displayFileCat();
-			}
-		}, function() {
-			alert("error");
-		}
-	);
 	
 	$(".icon-plus").bindtouch(function() {
 		$("#createFolder").show();
@@ -218,18 +204,39 @@ function ready() {
 		$(this).addClass("on");
 		tabscroll.scrollToElement("li.tab2",400);
 	});
-	
+
 	$(".login-to-weibo").bindtouch(function() {
-		var  ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039",
-				"_blank", "location=true&clearcache=true");
+		var ref = window.open("https://api.weibo.com/oauth2/authorize?client_id=2347174039&response_type=code&redirect_uri=http://teddyfr.duapp.com/oauth/weibo/2347174039",
+				"_blank", "location=true");
 		ref.addEventListener("loadstop", function(event) {
 			if (event.url.indexOf("teddyfr")>-1) {
 				ref.executeScript({ code : "alert(2);authReader;"}, function(data) {
-					
+					ref.close();
+					$(".notlogon").hide();
+					$(".weibo-login-info").show();
+					$(".weibo-login-info .wbhead").css("background-image", 'url("' + data[0].avatar_hd + '")');
+					$(".weibo-login-info .wbname").html(data[0].name);
+					$(".weibo-login-info .wbdesc").html(data[0].description);
 				});
 			}
 		});
 	});
+	
+	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
+		function(entries) {
+			openDir(entries);
+			var coll = db.getCollection("files");
+			if (coll==null) {
+				updateFileCat(entries);
+			} else {
+				displayFileCat();
+			}
+		}, function() {
+			alert("error");
+		}
+	);
+	
+	
 }
 
 function viewTarget(entryList, action) {
