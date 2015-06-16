@@ -224,7 +224,6 @@ function ready() {
 				"_blank", "location=true&clearcache=true");
 		ref.addEventListener("loadstop", function(event) {
 			if (event.url.indexOf("teddyfr")>-1) {
-				alert(1);
 				ref.executeScript({ code : "alert(2);authReader;"}, function(data) {
 					
 				});
