@@ -166,14 +166,26 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+<<<<<<< HEAD
     "org.apache.cordova.inappbrowser": "0.6.0",
     "cordova-plugin-file-transfer": "1.1.0",
     "cordova-plugin-file": "2.0.0"
+=======
+    "org.apache.cordova.file": "1.3.3",
+    "org.apache.cordova.statusbar": "0.1.10"
+>>>>>>> fd196068525bdaa52b851598e06cceadc4383b2f
 }
 // BOTTOM OF METADATA
 });
