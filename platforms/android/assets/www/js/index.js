@@ -68,7 +68,7 @@ function ready() {
 		scrollX: true, 
 		scrollY: false, 
 		snap:true, 
-		momentum: true,
+		momentum: false,
 		snapSpeed: 400,
 		indicators: {
 			el: document.getElementById('indicator'),
@@ -81,13 +81,14 @@ function ready() {
 		$(".head a").eq(this.currentPage.pageX).addClass("on");
 	});
 	
-	$(".icon-plus").bindtouch(function() {
+	$(".icon-folder-empty").bindtouch(function() {
 		$("#createFolder").show();
 	});
 	
 	$("#btn-cancel-cf").bindtouch(function() {
 		$("#createFolder").hide();
 	});
+	
 	$("#btn-cf").bindtouch(function() {
 		dirEntry.getDirectory($("#edit-folder-name").val(), {
 			create: true,
@@ -99,7 +100,7 @@ function ready() {
 		});
 	});
 	
-	$(".icon-trash").bindtouch(function() {
+	$(".icon-trash-empty").bindtouch(function() {
 		$(".icon-check").each(function() {
 			var entry = $(this).parents(".item").data("entry");
 			
@@ -195,22 +196,16 @@ function ready() {
 	});
 	
 	$(".head .bycat").bindtouch(function() {
-		$(".head .on").removeClass("on");
-		$(this).addClass("on");
 		tabscroll.scrollTo(0,0,400);
 	});
 	$(".head .browse").bindtouch(function() {
-		$(".head .on").removeClass("on");
-		$(this).addClass("on");
 		tabscroll.scrollToElement("li.tab2",400);
 	});
 	$(".head .share").bindtouch(function() {
-		$(".head .on").removeClass("on");
-		$(this).addClass("on");
 		tabscroll.scrollToElement("li.tab3",400);
 	});
 	
-	$(".icon-video").bindtouch(function() {
+	$(".icon-weibo").bindtouch(function() {
 		$(".icon-check").each(function() {
 			var entry = $(this).parents(".item").data("entry");
 			uploadFile(entry);
@@ -219,6 +214,20 @@ function ready() {
 
 	$(".login-to-weibo").bindtouch(function() {
 		loginWeibo();
+	});
+	
+	
+	$(".icon-arrows-cw").bindtouch(function(){
+		var coll = db.getCollection("files");
+		if (coll!=null) {
+			window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
+					function(entries) {
+						updateFileCat(entries);
+					}, function() {
+						alert("error");
+			}
+		);
+		}
 	});
 	
 	window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory,
@@ -387,9 +396,9 @@ function displayFileCat() {
 	$(".icon-picture i").html(coll.find({"ext": {"$in": ["png"]}}).length);
 	$(".icon-music i").html(coll.find({"ext": {"$in": ["mp3"]}}).length);
 	$(".icon-video i").html(coll.find({"ext": {"$in": ["mp4","flv"]}}).length);
-	$(".icon-doc-text i").html(coll.find({"ext": {"$in": ["txt","doc","pdf"]}}).length);
-	$(".icon-wechat i").html(coll.find({"ext": {"$in": ["wma"]}}).length);
-	$(".icon-android i").html(coll.find({"ext": "apk"}).length);
+	$(".icon-th-list i").html(coll.find({"ext": {"$in": ["txt","doc","pdf"]}}).length);
+	$(".icon-file-audio i").html(coll.find({"ext": {"$in": ["wma"]}}).length);
+	$(".icon-docs i").html(coll.find({"ext": "apk"}).length);
 	
 	var coll = db.getCollection("favourites");
 	if (coll!=null) {
@@ -399,11 +408,17 @@ function displayFileCat() {
 
 var scanedTotal = 0;
 function updateFileCat(entry) {
-	var coll = db.addCollection("files");
-
+	var coll = db.getCollection("files");
+	if (coll==null) {
+		coll = db.addCollection("files");
+	}
 	scanstacks.push(entry);
+	if (scanedTotal>0) return;
+	coll.removeDataOnly();
 	scanAndPutFile(function() {
 		$("#scan-info").html("扫描完成, 共扫描到 " + scanedTotal + "个文件");
+		displayFileCat();
+		scanedTotal = 0;
 		db.save();
 	});
 }

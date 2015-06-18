@@ -23,6 +23,20 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/cordova-plugin-media/www/MediaError.js",
+        "id": "cordova-plugin-media.MediaError",
+        "clobbers": [
+            "window.MediaError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-media/www/Media.js",
+        "id": "cordova-plugin-media.Media",
+        "clobbers": [
+            "window.Media"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "id": "cordova-plugin-file.DirectoryEntry",
         "clobbers": [
@@ -174,6 +188,7 @@ module.exports.metadata =
 {
     "cordova-plugin-file-transfer": "1.1.0",
     "cordova-plugin-inappbrowser": "1.0.0",
+    "cordova-plugin-media": "1.0.0",
     "cordova-plugin-file": "2.0.0"
 }
 // BOTTOM OF METADATA

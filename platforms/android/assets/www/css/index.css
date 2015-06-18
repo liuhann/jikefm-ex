@@ -181,6 +181,9 @@ ul , li  {
 	border-left : 1px solid #ddd;
 	margin-left: -1px;
 }
+.grid9 .line a.pressed {
+	background-color: #f1f1f1;	
+}
 
 .grid9 .line a:BEFORE {
 	margin-top: 1.5rem;
