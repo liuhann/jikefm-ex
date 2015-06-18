@@ -13,10 +13,8 @@
 .icon-check:before { content: '\e80b'; } /* '' */
 .icon-check-empty:before { content: '\e80c'; } /* '' */
 .icon-pause:before { content: '\e80d'; } /* '' */
-.icon-play:before { content: '\e80e'; } /* '' */
-.icon-stop:before { content: '\e80f'; } /* '' */
-.icon-to-end:before { content: '\e810'; } /* '' */
-.icon-to-start:before { content: '\e811'; } /* '' */
+.icon-stop:before { content: '\e80e'; } /* '' */
+.icon-play:before { content: '\e80f'; } /* '' */
 .icon-weibo:before { content: '\e812'; } /* '' */
 .icon-trash-empty:before { content: '\e813'; } /* '' */
 .icon-move:before { content: '\e814'; } /* '' */

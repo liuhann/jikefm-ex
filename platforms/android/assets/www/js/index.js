@@ -343,6 +343,11 @@ function openDir(dirEntry) {
 	            cloned.data("entry", entry);
 	            if (entry.isFile) {
 	               cloned.find(".icon").addClass("file");
+	               if (entry.name.indexOf(".mp3")>-1) {
+	            	   cloned.bindtouch(function() {
+	            		  playMusic($(this).data("entry"));
+	            	   });
+	               }
 	            } else{
 	               cloned.find(".icon").addClass("folder");
 	               cloned.bindtouch(function() {
@@ -456,6 +461,83 @@ function scanAndPutFile(cb) {
 		}
 	}
 }
+
+var currentMedia = null;
+var currentInterval = null;
+function playMusic(entry) {
+	if (currentMedia!=null) {
+		currentMedia.stop();
+		currentMedia.release();
+		currentMedia = null;
+	}
+	
+	if (currentInterval!=null) {
+		window.clearInterval(currentInterval);
+		currentInterval = null;
+	}
+	
+	currentMedia = new Media(entry.nativeURL);
+	currentMedia.play();
+	
+	currentInterval = setInterval(function () {
+		currentMedia.getCurrentPosition(
+	        function (position) {
+	            if (position > 0) {
+	            	$("#media-play .current").html(formatDura(position) + "   " + position);
+	            	var duration  = currentMedia.getDuration();
+	            	$("#media-play .dura").html(formatDura(duration));
+	            	$("#media-play .media-progress .media-position-indicator").css("margin-left", 12*position/duration + "rem");
+	            }
+	        }
+	    );
+	}, 1000);
+	
+	$("#media-play").data("entry", entry);
+	$("#media-play").show();
+	
+	$("#media-play .icon-pause").bindtouch(function() {
+		$(".icon-play").show();
+		$(".icon-pause").hide();
+		pauseMusic();
+	});
+	
+	$("#media-play .icon-play").bindtouch(function() {
+		$(".icon-pause").show();
+		$(".icon-play").hide();
+		resumeMusic();
+	});
+	
+	function formatDura(sec) {
+		return Math.floor(sec/60) + ":" + Math.floor(100+sec%60).toString().substring(1);
+	}
+}
+
+function clearCurrentPlay() {
+	if (currentMedia!=null) {
+		currentMedia.stop();
+		currentMedia.release();
+		currentMedia = null;
+	}
+	
+	if (currentInterval!=null) {
+		window.clearInterval(currentInterval);
+		currentInterval = null;
+	}
+	$("#media-play").hide();
+}
+
+function pauseMusic() {
+	if (currentMedia!=null) {
+		currentMedia.pause();
+	}
+}
+
+function resumeMusic() {
+	if (currentMedia!=null) {
+		currentMedia.play();
+	}
+}
+
 
 function isIgnore(entry) {
 	var name = entry.name;
